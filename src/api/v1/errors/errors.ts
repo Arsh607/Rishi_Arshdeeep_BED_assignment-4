@@ -1,4 +1,4 @@
-import { HTTP_STATUS } from "../../../constants/httpsConstants";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
 
 export class AppError extends Error {
     constructor(

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../errors/errors";
-import { HTTP_STATUS } from "../../../constants/httpsConstants";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { errorResponse } from "../models/responseModel";
 
 const errorHandler = (
