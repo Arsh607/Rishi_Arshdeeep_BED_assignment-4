@@ -34,3 +34,5 @@ router.delete('/loans/:id',
     isAuthorized({hasRole: ['admin']}),
     loanController.deleteLoan
 );
+
+export default router;
