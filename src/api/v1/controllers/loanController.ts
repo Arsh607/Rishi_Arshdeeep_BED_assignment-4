@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
-import * as loanService from "../services/loanService";
+import * as loanService from '../services/loanService';
 
 export const getAllLoans = async (
     req: Request,
