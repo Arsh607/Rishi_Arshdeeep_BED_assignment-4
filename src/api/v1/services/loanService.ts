@@ -1,4 +1,4 @@
-import { Loan } from "../models/loanModel";
+import { Loan, LoanStatus } from "../models/loanModel";
 import { ServiceError } from "../errors/errors";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import {
@@ -10,6 +10,13 @@ import {
     deleteLoanFromDB,
 } from "../repositories/loanRepository";
 
+const ALLOWED_STATUSES: LoanStatus[] = [
+    "pending",
+    "under_review",
+    "flagged",
+    "approved",
+];
+
 interface CreateLoanInput {
     applicant: string;
     amount: number;
@@ -18,7 +25,7 @@ interface CreateLoanInput {
 interface UpdateLoanInput {
     applicant?: string;
     amount?: number;
-    status?: string;
+    status?: LoanStatus;
 }
 
 export const getAllLoans = async (): Promise<Loan[]> => {
@@ -26,9 +33,9 @@ export const getAllLoans = async (): Promise<Loan[]> => {
 };
 
 export const getLoanById = async (id: number): Promise<Loan> => {
-    const foundLoan = await getLoanByIdFromDB(id);
+    const loan = await getLoanByIdFromDB(id);
 
-    if (!foundLoan) {
+    if (!loan) {
         throw new ServiceError(
             "Loan application not found",
             "LOAN_NOT_FOUND",
@@ -36,7 +43,7 @@ export const getLoanById = async (id: number): Promise<Loan> => {
         );
     }
 
-    return foundLoan;
+    return loan;
 };
 
 export const createLoan = async (data: CreateLoanInput): Promise<Loan> => {
@@ -67,6 +74,14 @@ export const updateLoan = async (
     id: number,
     data: UpdateLoanInput
 ): Promise<Loan> => {
+    if (data.status && !ALLOWED_STATUSES.includes(data.status)) {
+        throw new ServiceError(
+            "Invalid loan status",
+            "INVALID_STATUS",
+            HTTP_STATUS.BAD_REQUEST
+        );
+    }
+
     const updatedLoan = await updateLoanInDB(id, data);
 
     if (!updatedLoan) {
