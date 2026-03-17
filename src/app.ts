@@ -5,6 +5,7 @@ import healthRouter from './api/v1/routes/healthRoute';
 import loanRouter from './api/v1/routes/loanRoutes';
 import adminRouter from './api/v1/routes/adminRoutes';
 import authRouter from './api/v1/routes/authRoutes';
+import userRouter from './api/v1/routes/userRoutes';
 
 const app: Express = express();
 
@@ -16,5 +17,6 @@ app.use('/api/v1', healthRouter);
 app.use('/api/v1', loanRouter);
 app.use('/api/v1', adminRouter);
 app.use('/api/v1', authRouter);
+app.use('/api/v1/user', userRouter);
 app.use(errorHandler);
 export default app;
