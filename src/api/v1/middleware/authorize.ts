@@ -5,7 +5,7 @@ interface AuthorizeOptions {
     hasRole: string[];
 }
 
-const isAuthorized =
+export const isAuthorized =
     ({ hasRole }: AuthorizeOptions) =>
     (req: Request, res: Response, next: NextFunction): void => {
         const userRole = res.locals.role;
@@ -33,4 +33,3 @@ const isAuthorized =
         next();
     };
 
-export default isAuthorized;
